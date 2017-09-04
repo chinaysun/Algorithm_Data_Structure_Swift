@@ -40,7 +40,9 @@
         
     }
 
-    func maxSubArray2(_ nums: [Int]) -> Int {
+
+    // divide and conquer method
+    func maxSubArray3(_ nums: [Int]) -> Int {
         var maxSoFar = Int.min, sum = 0
 
         for num in nums {
@@ -51,4 +53,65 @@
 
         return maxSoFar        
     }
+
+
+        func maxSubArray(_ nums: [Int]) -> Int {
+        
+        func maxCrossingSum(_ nums:[Int],_ low:Int,_ mid:Int,_ high: Int)->Int
+        {
+            var sum = 0
+            var leftSum = Int.min
+            
+            for i in (low...mid).reversed()
+            {
+                sum = sum + nums[i]
+                if sum > leftSum
+                {
+                    leftSum = sum
+                }
+            }
+            
+            sum = 0
+            var rightSum = Int.min
+            
+            for i in (mid + 1)...high
+            {
+                sum = sum + nums[i]
+                if sum > rightSum
+                {
+                    rightSum = sum
+                }
+            }
+            
+            return leftSum + rightSum
+            
+            
+        }
+        
+        
+        func maxSum(_ nums:[Int],_ low:Int,_ high:Int)->Int
+        {
+            //boundary
+            if low == high
+            {
+                return nums[low]
+            }
+            
+            let mid = (low + high) / 2
+            
+            let leftMax = maxSum(nums,low,mid)
+            let rightMax = maxSum(nums,mid+1,high)
+            let crossMax = maxCrossingSum(nums, low, mid, high)
+            
+            return max(leftMax, rightMax, crossMax)
+            
+        }
+        
+        
+        return maxSum(nums,0,nums.count - 1)
+        
+        
+    }
+
+
 }
