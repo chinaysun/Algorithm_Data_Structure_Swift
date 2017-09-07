@@ -1,23 +1,56 @@
 class MergeSort
 {
-    func merge(_ arr:inout [Int],_ l:Int,_ m:Int,_ r:Int)
+    func mergeArray(_ arr:inout [Int],_ l:Int,_ m:Int,_ r:Int)
     {
-        var i = l
-        var j = m + 1
+      
+        var leftArr = [Int]()
+        var rightArr = [Int]()
         
-        while i <= m && j <= r
+        for i in l...m
         {
-            if arr[i] <= arr[j]
+            leftArr.append(arr[i])
+        }
+        
+        for j in (m + 1)...r
+        {
+            rightArr.append(arr[j])
+        }
+        
+        
+        var i = 0
+        var j = 0
+        var index = l
+        
+        
+        
+        while i <= m - l && j <= r - m - 1
+        {
+            if leftArr[i] <= rightArr[j]
             {
+                arr[index] = leftArr[i]
                 i += 1
                 
             }else{
                 
-                var temp = arr[i]
-                arr[i] = arr[j]
-                arr[j] = temp
+                arr[index] = rightArr[j]
                 j += 1
             }
+            
+            index += 1
+        }
+        
+        while i <= m - l
+        {
+            arr[index] = leftArr[i]
+            i += 1
+            index += 1
+        }
+        
+        while j <= r - m - 1
+        {
+            arr[index] = rightArr[j]
+            j += 1
+            index += 1
         }
 
         
@@ -30,7 +63,7 @@ class MergeSort
             let m = (l + r)/2
             mergeSort(&arr,l,m)
             mergeSort(&arr,m+1,r)
-            merge(&arr,l,m,r)
+            mergeArray(&arr,l,m,r)
         }
     }
    
